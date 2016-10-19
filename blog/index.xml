@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Jason Lab</title>
-    <link>http://replace-this-with-your-website-url.com/index.xml</link>
+    <link>http://harveyprince.github.io/blog/index.xml</link>
     <description>Recent content on Jason Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -12,29 +12,29 @@
     
     <item>
       <title>second</title>
-      <link>http://replace-this-with-your-website-url.com/post/second/</link>
+      <link>http://harveyprince.github.io/blog/post/second/</link>
       <pubDate>Wed, 19 Oct 2016 21:56:24 +0800</pubDate>
       
-      <guid>http://replace-this-with-your-website-url.com/post/second/</guid>
+      <guid>http://harveyprince.github.io/blog/post/second/</guid>
       <description></description>
     </item>
     
     <item>
       <title>waiting for project</title>
-      <link>http://replace-this-with-your-website-url.com/project/deep-learning/</link>
+      <link>http://harveyprince.github.io/blog/project/deep-learning/</link>
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://replace-this-with-your-website-url.com/project/deep-learning/</guid>
+      <guid>http://harveyprince.github.io/blog/project/deep-learning/</guid>
       <description>&lt;p&gt;waiting&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>waiting.</title>
-      <link>http://replace-this-with-your-website-url.com/post/getting-started/</link>
+      <link>http://harveyprince.github.io/blog/post/getting-started/</link>
       <pubDate>Wed, 20 Apr 2016 12:00:00 +0000</pubDate>
       
-      <guid>http://replace-this-with-your-website-url.com/post/getting-started/</guid>
+      <guid>http://harveyprince.github.io/blog/post/getting-started/</guid>
       <description>&lt;p&gt;waiting&lt;/p&gt;
 </description>
     </item>
