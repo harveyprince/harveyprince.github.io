@@ -22,11 +22,11 @@
   <link rel="feed" href="http://harveyprince.github.io/blog/index.xml" type="application/rss+xml" title="Jason Lab">
 
   <link rel="shortcut icon" href="/blog/img/favicon.ico" type="image/x-icon">
-  <link rel="canonical" href="http://harveyprince.github.io/blog/post/getting-started/">
+  <link rel="canonical" href="http://harveyprince.github.io/blog/post/CountingBits/">
 
   
 
-  <title>waiting. | Jason Lab</title>
+  <title>Counting Bits | Jason Lab</title>
 
 </head>
 <body id="top">
@@ -71,18 +71,16 @@
   <article class="article" itemscope itemtype="http://schema.org/Article">
 
     
-    <img src="http://harveyprince.github.io/blog/img/banners/getting-started.png" class="article-banner" itemprop="image">
-    
 
-    <h1 itemprop="name">waiting.</h1>
+    <h1 itemprop="name">Counting Bits</h1>
 
     
 
 <div class="article-metadata">
 
   <span class="article-date">
-    <time datetime="2016-04-20 12:00:00 &#43;0000 UTC" itemprop="datePublished">
-      Wed, Apr 20, 2016
+    <time datetime="2016-10-20 09:56:13 &#43;0800 CST" itemprop="datePublished">
+      Thu, Oct 20, 2016
     </time>
   </span>
 
@@ -92,10 +90,13 @@
   <span class="article-tags">
     <i class="fa fa-tags"></i>
     
-    <a class="article-tag-link" href="http://harveyprince.github.io/blog/tags/test">test</a
+    <a class="article-tag-link" href="http://harveyprince.github.io/blog/tags/algorithm">algorithm</a
     >, 
     
-    <a class="article-tag-link" href="http://harveyprince.github.io/blog/tags/hugo">hugo</a
+    <a class="article-tag-link" href="http://harveyprince.github.io/blog/tags/code">code</a
+    >, 
+    
+    <a class="article-tag-link" href="http://harveyprince.github.io/blog/tags/leetcode">leetcode</a
     >
     
   </span>
@@ -108,35 +109,35 @@
   <ul class="share">
     <li>
       <a class="facebook"
-         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fgetting-started%2f"
+         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fCountingBits%2f"
          target="_blank">
         <i class="fa fa-facebook"></i>
       </a>
     </li>
     <li>
       <a class="twitter"
-         href="https://twitter.com/intent/tweet?text=waiting.&amp;url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fgetting-started%2f"
+         href="https://twitter.com/intent/tweet?text=Counting%20Bits&amp;url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fCountingBits%2f"
          target="_blank">
         <i class="fa fa-twitter"></i>
       </a>
     </li>
     <li>
       <a class="linkedin"
-         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fgetting-started%2f&amp;title=waiting."
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fCountingBits%2f&amp;title=Counting%20Bits"
          target="_blank">
         <i class="fa fa-linkedin"></i>
       </a>
     </li>
     <li>
       <a class="weibo"
-         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fgetting-started%2f&amp;title=waiting."
+         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fCountingBits%2f&amp;title=Counting%20Bits"
          target="_blank">
         <i class="fa fa-weibo"></i>
       </a>
     </li>
     <li>
       <a class="email"
-         href="mailto:?subject=waiting.&amp;body=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fgetting-started%2f">
+         href="mailto:?subject=Counting%20Bits&amp;body=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fCountingBits%2f">
         <i class="fa fa-envelope"></i>
       </a>
     </li>
@@ -150,8 +151,93 @@
 
 
     <div class="article-style" itemprop="articleBody">
-      <p>waiting</p>
+      <h3 id="问题描述">问题描述</h3>
 
+<hr />
+
+<p>Given a non negative integer number num. For every numbers i in the range <code>0 ≤ i ≤ num</code> calculate the number of 1&rsquo;s in their binary representation and return them as an array.</p>
+
+<p>Example:
+For <code>num = 5</code> you should <code>return [0,1,1,2,1,2]</code>.</p>
+
+<p>Follow up:</p>
+
+<p>It is very easy to come up with a solution with run time <code>O(n*sizeof(integer))</code>. But can you do it in linear time <code>O(n)</code> /possibly in a single pass?
+Space complexity should be <code>O(n)</code>.
+Can you do it like a boss? Do it without using any builtin function like <code>__builtin_popcount</code> in c++ or in any other language.</p>
+
+<p>Hint:</p>
+
+<ul>
+<li>You should make use of what you have produced already.</li>
+<li>Divide the numbers in ranges like <code>[2-3]</code>, <code>[4-7]</code>, <code>[8-15]</code> and so on. And try to generate new range from previous.</li>
+<li>Or does the odd/even status of the number help you in calculating the number of 1s?</li>
+</ul>
+
+<hr />
+
+<h3 id="solution">Solution</h3>
+
+<p>根据提示可以知道<code>[2-3]</code>为<code>[10,11]</code>，<code>[4-7]</code>为<code>[100,111]</code>，可以看出范围的划分为<code>2^n ~ 2^(n+1)-1</code>，要利用已有的结果，即<code>1**</code>实际上是在<code>**</code>的基础上加了<code>1</code>，<code>1*</code>又是在<code>*</code>的基础上加<code>1</code></p>
+
+<blockquote>
+<p><code>num = 5</code>的结果为<code>[0,1,1,2,1,2]</code></p>
+</blockquote>
+
+<p>可以看作</p>
+
+<pre><code>    0  1
+    0  1  (0  1)+1  =  0  1  1  2
+    0  1  1  2  (0  1  1  2)+1 = 0  1  1  2  1  2  2  3
+</code></pre>
+
+<p>得到如下解法</p>
+
+<pre><code>/**
+ * @param {number} num
+ * @return {number[]}
+ */
+var countBits = function(num) {
+    var border = 1;
+    var arr = [0];
+    for (let i = 1;i&lt;=num ;i++) {
+        
+        if (i &gt;= border) {
+            let idx = i - border;
+            arr.push(arr[idx]+1);
+            if (i == 2*border-1) {
+                border *= 2;
+            }
+        }
+        
+    }
+    
+    return arr;
+};
+</code></pre>
+
+<p>还可以考虑成</p>
+
+<pre><code> 7 =&gt; 111     &gt;&gt;&gt;1      右移一位  成了 11（即3）  ，3所包含的1的数量再加上最末位的数值（0或1）就是结果
+</code></pre>
+
+<p>得到如下</p>
+
+<pre><code>/**
+ * @param {number} num
+ * @return {number[]}
+ */
+var countBits = function(num) {
+    var arr = [0];
+    for (let i = 1;i&lt;=num ;i++) {
+        
+        arr.push(arr[i&gt;&gt;&gt;1]+(i&amp;1));
+        
+    }
+    
+    return arr;
+};
+</code></pre>
     </div>
 
   </article>
@@ -161,7 +247,7 @@
     
 
     
-    <li class="next"><a href="http://harveyprince.github.io/blog/post/second/">second <span
+    <li class="next"><a href="http://harveyprince.github.io/blog/post/Numberof1Bits/">Number of 1 Bits <span
       aria-hidden="true">&rarr;</span></a></li>
     
   </ul>
@@ -173,9 +259,9 @@
     <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'harveyprince';
-    var disqus_identifier = 'http:\/\/harveyprince.github.io\/blog\/post\/getting-started\/';
-    var disqus_title = 'waiting.';
-    var disqus_url = 'http:\/\/harveyprince.github.io\/blog\/post\/getting-started\/';
+    var disqus_identifier = 'http:\/\/harveyprince.github.io\/blog\/post\/CountingBits\/';
+    var disqus_title = 'Counting Bits';
+    var disqus_url = 'http:\/\/harveyprince.github.io\/blog\/post\/CountingBits\/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -226,11 +312,6 @@
     <script>hljs.initHighlightingOnLoad();</script>
 
     
-    
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
-    </script>
-    <script async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML"></script>
     
 
   </body>

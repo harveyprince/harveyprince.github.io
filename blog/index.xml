@@ -7,16 +7,226 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016 Jason</copyright>
-    <lastBuildDate>Wed, 19 Oct 2016 21:56:24 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 20 Oct 2016 12:37:17 +0800</lastBuildDate>
     <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>second</title>
-      <link>http://harveyprince.github.io/blog/post/second/</link>
-      <pubDate>Wed, 19 Oct 2016 21:56:24 +0800</pubDate>
+      <title>Fizz Buzz</title>
+      <link>http://harveyprince.github.io/blog/post/FizzBuzz/</link>
+      <pubDate>Thu, 20 Oct 2016 12:37:17 +0800</pubDate>
       
-      <guid>http://harveyprince.github.io/blog/post/second/</guid>
-      <description></description>
+      <guid>http://harveyprince.github.io/blog/post/FizzBuzz/</guid>
+      <description>&lt;h2 id=&#34;问题描述&#34;&gt;问题描述&lt;/h2&gt;
+
+&lt;p&gt;Write a program that outputs the string representation of numbers from 1 to n.&lt;/p&gt;
+
+&lt;p&gt;But for multiples of three it should output “Fizz” instead of the number and for the multiples of five output “Buzz”. For numbers which are multiples of both three and five output “FizzBuzz”.&lt;/p&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;n = 15,
+
+Return:
+[
+    &amp;quot;1&amp;quot;,
+    &amp;quot;2&amp;quot;,
+    &amp;quot;Fizz&amp;quot;,
+    &amp;quot;4&amp;quot;,
+    &amp;quot;Buzz&amp;quot;,
+    &amp;quot;Fizz&amp;quot;,
+    &amp;quot;7&amp;quot;,
+    &amp;quot;8&amp;quot;,
+    &amp;quot;Fizz&amp;quot;,
+    &amp;quot;Buzz&amp;quot;,
+    &amp;quot;11&amp;quot;,
+    &amp;quot;Fizz&amp;quot;,
+    &amp;quot;13&amp;quot;,
+    &amp;quot;14&amp;quot;,
+    &amp;quot;FizzBuzz&amp;quot;
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * @param {number} n
+ * @return {string[]}
+ */
+var fizzBuzz = function(n) {
+    var res = [];
+    for (let i = 1; i &amp;lt;=n ; i++) {
+        let name = &#39;&#39;;
+        i%3 == 0?name+=&#39;Fizz&#39;:&#39;&#39;;
+        i%5 == 0?name+=&#39;Buzz&#39;:&#39;&#39;;
+        res.push(name==&#39;&#39;?i .toString():name);
+    }
+    return res;
+};
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>Number of 1 Bits</title>
+      <link>http://harveyprince.github.io/blog/post/Numberof1Bits/</link>
+      <pubDate>Thu, 20 Oct 2016 11:19:14 +0800</pubDate>
+      
+      <guid>http://harveyprince.github.io/blog/post/Numberof1Bits/</guid>
+      <description>&lt;h3 id=&#34;问题描述&#34;&gt;问题描述&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Write a function that takes an unsigned integer and returns the number of &lt;code&gt;’1&#39;&lt;/code&gt; bits it has (also known as the Hamming weight).&lt;/p&gt;
+
+&lt;p&gt;For example, the &lt;code&gt;32-bit&lt;/code&gt; integer &lt;code&gt;’11&#39;&lt;/code&gt; has binary representation &lt;code&gt;00000000000000000000000000001011&lt;/code&gt;, so the function should &lt;code&gt;return 3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;p&gt;最简单的做法就是将所有位的0或1加起来就是最终结果，这里就不赘述了&lt;/p&gt;
+
+&lt;p&gt;方法1:
+通过正则进行处理&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * @param {number} n - a positive integer
+ * @return {number}
+ */
+var hammingWeight = function(n) {
+    return (n).toString(2).replace(/0/g, &#39;&#39;).length;
+    
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;方法2:
+通过位操作符进行&lt;/p&gt;
+
+&lt;p&gt;通过研究可以知道&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;假设
+  n        =&amp;gt;    11000
+  n-1      =&amp;gt;    10111
+
+  则
+  n &amp;amp; n-1  =&amp;gt;    10000
+
+  就可以做到从右往左逐渐将1抹去      
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;得到解法&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * @param {number} n - a positive integer
+ * @return {number}
+ */
+var hammingWeight = function(n) {
+    let count = 0;
+    while(n!=0){
+        count ++;
+        n &amp;amp;= (n-1);
+    }
+    return count;
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;实验证明正则的处理更快&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Counting Bits</title>
+      <link>http://harveyprince.github.io/blog/post/CountingBits/</link>
+      <pubDate>Thu, 20 Oct 2016 09:56:13 +0800</pubDate>
+      
+      <guid>http://harveyprince.github.io/blog/post/CountingBits/</guid>
+      <description>&lt;h3 id=&#34;问题描述&#34;&gt;问题描述&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Given a non negative integer number num. For every numbers i in the range &lt;code&gt;0 ≤ i ≤ num&lt;/code&gt; calculate the number of 1&amp;rsquo;s in their binary representation and return them as an array.&lt;/p&gt;
+
+&lt;p&gt;Example:
+For &lt;code&gt;num = 5&lt;/code&gt; you should &lt;code&gt;return [0,1,1,2,1,2]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Follow up:&lt;/p&gt;
+
+&lt;p&gt;It is very easy to come up with a solution with run time &lt;code&gt;O(n*sizeof(integer))&lt;/code&gt;. But can you do it in linear time &lt;code&gt;O(n)&lt;/code&gt; /possibly in a single pass?
+Space complexity should be &lt;code&gt;O(n)&lt;/code&gt;.
+Can you do it like a boss? Do it without using any builtin function like &lt;code&gt;__builtin_popcount&lt;/code&gt; in c++ or in any other language.&lt;/p&gt;
+
+&lt;p&gt;Hint:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;You should make use of what you have produced already.&lt;/li&gt;
+&lt;li&gt;Divide the numbers in ranges like &lt;code&gt;[2-3]&lt;/code&gt;, &lt;code&gt;[4-7]&lt;/code&gt;, &lt;code&gt;[8-15]&lt;/code&gt; and so on. And try to generate new range from previous.&lt;/li&gt;
+&lt;li&gt;Or does the odd/even status of the number help you in calculating the number of 1s?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;p&gt;根据提示可以知道&lt;code&gt;[2-3]&lt;/code&gt;为&lt;code&gt;[10,11]&lt;/code&gt;，&lt;code&gt;[4-7]&lt;/code&gt;为&lt;code&gt;[100,111]&lt;/code&gt;，可以看出范围的划分为&lt;code&gt;2^n ~ 2^(n+1)-1&lt;/code&gt;，要利用已有的结果，即&lt;code&gt;1**&lt;/code&gt;实际上是在&lt;code&gt;**&lt;/code&gt;的基础上加了&lt;code&gt;1&lt;/code&gt;，&lt;code&gt;1*&lt;/code&gt;又是在&lt;code&gt;*&lt;/code&gt;的基础上加&lt;code&gt;1&lt;/code&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;num = 5&lt;/code&gt;的结果为&lt;code&gt;[0,1,1,2,1,2]&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;可以看作&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    0  1
+    0  1  (0  1)+1  =  0  1  1  2
+    0  1  1  2  (0  1  1  2)+1 = 0  1  1  2  1  2  2  3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;得到如下解法&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * @param {number} num
+ * @return {number[]}
+ */
+var countBits = function(num) {
+    var border = 1;
+    var arr = [0];
+    for (let i = 1;i&amp;lt;=num ;i++) {
+        
+        if (i &amp;gt;= border) {
+            let idx = i - border;
+            arr.push(arr[idx]+1);
+            if (i == 2*border-1) {
+                border *= 2;
+            }
+        }
+        
+    }
+    
+    return arr;
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;还可以考虑成&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; 7 =&amp;gt; 111     &amp;gt;&amp;gt;&amp;gt;1      右移一位  成了 11（即3）  ，3所包含的1的数量再加上最末位的数值（0或1）就是结果
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;得到如下&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * @param {number} num
+ * @return {number[]}
+ */
+var countBits = function(num) {
+    var arr = [0];
+    for (let i = 1;i&amp;lt;=num ;i++) {
+        
+        arr.push(arr[i&amp;gt;&amp;gt;&amp;gt;1]+(i&amp;amp;1));
+        
+    }
+    
+    return arr;
+};
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
     <item>
@@ -25,16 +235,6 @@
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>http://harveyprince.github.io/blog/project/deep-learning/</guid>
-      <description>&lt;p&gt;waiting&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>waiting.</title>
-      <link>http://harveyprince.github.io/blog/post/getting-started/</link>
-      <pubDate>Wed, 20 Apr 2016 12:00:00 +0000</pubDate>
-      
-      <guid>http://harveyprince.github.io/blog/post/getting-started/</guid>
       <description>&lt;p&gt;waiting&lt;/p&gt;
 </description>
     </item>
