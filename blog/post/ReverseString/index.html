@@ -22,11 +22,11 @@
   <link rel="feed" href="http://harveyprince.github.io/blog/index.xml" type="application/rss+xml" title="Jason Lab">
 
   <link rel="shortcut icon" href="/blog/img/favicon.ico" type="image/x-icon">
-  <link rel="canonical" href="http://harveyprince.github.io/blog/post/FizzBuzz/">
+  <link rel="canonical" href="http://harveyprince.github.io/blog/post/ReverseString/">
 
   
 
-  <title>Fizz Buzz | Jason Lab</title>
+  <title>Reverse String | Jason Lab</title>
 
 </head>
 <body id="top">
@@ -72,14 +72,14 @@
 
     
 
-    <h1 itemprop="name">Fizz Buzz</h1>
+    <h1 itemprop="name">Reverse String</h1>
 
     
 
 <div class="article-metadata">
 
   <span class="article-date">
-    <time datetime="2016-10-20 12:37:17 &#43;0800 CST" itemprop="datePublished">
+    <time datetime="2016-10-20 13:14:18 &#43;0800 CST" itemprop="datePublished">
       Thu, Oct 20, 2016
     </time>
   </span>
@@ -109,35 +109,35 @@
   <ul class="share">
     <li>
       <a class="facebook"
-         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fFizzBuzz%2f"
+         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fReverseString%2f"
          target="_blank">
         <i class="fa fa-facebook"></i>
       </a>
     </li>
     <li>
       <a class="twitter"
-         href="https://twitter.com/intent/tweet?text=Fizz%20Buzz&amp;url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fFizzBuzz%2f"
+         href="https://twitter.com/intent/tweet?text=Reverse%20String&amp;url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fReverseString%2f"
          target="_blank">
         <i class="fa fa-twitter"></i>
       </a>
     </li>
     <li>
       <a class="linkedin"
-         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fFizzBuzz%2f&amp;title=Fizz%20Buzz"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fReverseString%2f&amp;title=Reverse%20String"
          target="_blank">
         <i class="fa fa-linkedin"></i>
       </a>
     </li>
     <li>
       <a class="weibo"
-         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fFizzBuzz%2f&amp;title=Fizz%20Buzz"
+         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fReverseString%2f&amp;title=Reverse%20String"
          target="_blank">
         <i class="fa fa-weibo"></i>
       </a>
     </li>
     <li>
       <a class="email"
-         href="mailto:?subject=Fizz%20Buzz&amp;body=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fFizzBuzz%2f">
+         href="mailto:?subject=Reverse%20String&amp;body=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fReverseString%2f">
         <i class="fa fa-envelope"></i>
       </a>
     </li>
@@ -155,51 +155,33 @@
 
 <hr />
 
-<p>Write a program that outputs the string representation of numbers from 1 to n.</p>
-
-<p>But for multiples of three it should output “Fizz” instead of the number and for the multiples of five output “Buzz”. For numbers which are multiples of both three and five output “FizzBuzz”.</p>
+<p>Write a function that takes a string as input and returns the string reversed.</p>
 
 <p><strong>Example:</strong></p>
 
-<pre><code>n = 15,
-
-Return:
-[
-    &quot;1&quot;,
-    &quot;2&quot;,
-    &quot;Fizz&quot;,
-    &quot;4&quot;,
-    &quot;Buzz&quot;,
-    &quot;Fizz&quot;,
-    &quot;7&quot;,
-    &quot;8&quot;,
-    &quot;Fizz&quot;,
-    &quot;Buzz&quot;,
-    &quot;11&quot;,
-    &quot;Fizz&quot;,
-    &quot;13&quot;,
-    &quot;14&quot;,
-    &quot;FizzBuzz&quot;
-]
-</code></pre>
+<p>Given <code>s = &quot;hello&quot;</code>, <code>return &quot;olleh&quot;</code>.</p>
 
 <hr />
 
 <h3 id="solution">Solution</h3>
 
+<p>最简单的方式就是让指针从末尾一直指向0，将指针位置的char累加至一个变量里</p>
+
+<p>改进的做法是采用两个指针，一个从头开始，一个从尾开始，交换两个指针位置的值</p>
+
 <pre><code>/**
- * @param {number} n
- * @return {string[]}
+ * @param {string} s
+ * @return {string}
  */
-var fizzBuzz = function(n) {
-    var res = [];
-    for (let i = 1; i &lt;=n ; i++) {
-        let name = '';
-        i%3 == 0?name+='Fizz':'';
-        i%5 == 0?name+='Buzz':'';
-        res.push(name==''?i .toString():name);
+var reverseString = function(s) {
+    let left = '';
+    let right = '';
+    for (var i = s.length-1,j=0; i &gt; j; i--,j++) {
+        right = s[j] + right;
+        left += s[i];
     }
-    return res;
+    
+    return left + (i==j?s[i]:'') + right;
 };
 </code></pre>
     </div>
@@ -209,12 +191,12 @@ var fizzBuzz = function(n) {
   <nav>
   <ul class="pager">
     
-    <li class="previous"><a href="http://harveyprince.github.io/blog/post/Numberof1Bits/"><span
-      aria-hidden="true">&larr;</span> Number of 1 Bits</a></li>
+    <li class="previous"><a href="http://harveyprince.github.io/blog/post/FizzBuzz/"><span
+      aria-hidden="true">&larr;</span> Fizz Buzz</a></li>
     
 
     
-    <li class="next"><a href="http://harveyprince.github.io/blog/post/ReverseString/">Reverse String <span
+    <li class="next"><a href="http://harveyprince.github.io/blog/post/BattleshipsinaBoard/">Battle ships in a Board <span
       aria-hidden="true">&rarr;</span></a></li>
     
   </ul>
@@ -226,9 +208,9 @@ var fizzBuzz = function(n) {
     <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'harveyprince';
-    var disqus_identifier = 'http:\/\/harveyprince.github.io\/blog\/post\/FizzBuzz\/';
-    var disqus_title = 'Fizz Buzz';
-    var disqus_url = 'http:\/\/harveyprince.github.io\/blog\/post\/FizzBuzz\/';
+    var disqus_identifier = 'http:\/\/harveyprince.github.io\/blog\/post\/ReverseString\/';
+    var disqus_title = 'Reverse String';
+    var disqus_url = 'http:\/\/harveyprince.github.io\/blog\/post\/ReverseString\/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

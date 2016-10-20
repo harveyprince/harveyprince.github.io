@@ -10,18 +10,174 @@
     <atom:link href="/tags/leetcode/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Queue Reconstruction by Height</title>
+      <link>http://harveyprince.github.io/blog/post/QueueReconstructionbyHeight/</link>
+      <pubDate>Thu, 20 Oct 2016 21:30:00 +0800</pubDate>
+      
+      <guid>http://harveyprince.github.io/blog/post/QueueReconstructionbyHeight/</guid>
+      <description>&lt;h3 id=&#34;问题描述&#34;&gt;问题描述&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Suppose you have a random list of people standing in a queue. Each person is described by a pair of integers &lt;code&gt;(h, k)&lt;/code&gt;, where &lt;code&gt;h&lt;/code&gt; is the height of the person and &lt;code&gt;k&lt;/code&gt; is the number of people in front of this person who have a height greater than or equal to &lt;code&gt;h&lt;/code&gt;. Write an algorithm to reconstruct the queue.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The number of people is less than &lt;code&gt;1,100&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Input:
+[[7,0], [4,4], [7,1], [5,0], [6,1], [5,2]]
+
+Output:
+[[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * @param {number[][]} people
+ * @return {number[][]}
+ */
+var reconstructQueue = function(people) {
+    //先根据h从大到小进行排序，h相同的，根据k从小到大排序
+    people.sort((a,b)=&amp;gt;a[0]===b[0]?a[1]-b[1]:b[0]-a[0]);
+    people.unshift([]);
+    //k代表在其前面比他高的个数，由于已经根据高度排过序，所以直接在该位置插入该元素即可
+    return people.reduce((list,next)=&amp;gt;{
+        list.splice(next[1],0,next);
+        return list;
+    });
+};
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>Battle ships in a Board</title>
+      <link>http://harveyprince.github.io/blog/post/BattleshipsinaBoard/</link>
+      <pubDate>Thu, 20 Oct 2016 21:08:32 +0800</pubDate>
+      
+      <guid>http://harveyprince.github.io/blog/post/BattleshipsinaBoard/</guid>
+      <description>&lt;h3 id=&#34;问题描述&#34;&gt;问题描述&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Given an 2D board, count how many different battleships are in it. The battleships are represented with &lt;code&gt;&#39;X&#39;&lt;/code&gt;s, empty slots are represented with &lt;code&gt;&#39;.&#39;&lt;/code&gt;s. You may assume the following rules:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;You receive a valid board, made of only battleships or empty slots.&lt;/li&gt;
+&lt;li&gt;Battleships can only be placed horizontally or vertically. In other words, they can only be made of the shape &lt;code&gt;1xN&lt;/code&gt; (1 row, N columns) or &lt;code&gt;Nx1&lt;/code&gt; (N rows, 1 column), where N can be of any size.&lt;/li&gt;
+&lt;li&gt;At least one horizontal or vertical cell separates between two battleships - there are no adjacent battleships.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;X..X
+...X
+...X
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the above board there are 2 battleships.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;...X
+XXXX
+...X
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is not a valid board - as battleships will always have a cell separating between them.
+Your algorithm should not modify the value of the board.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * @param {character[][]} board
+ * @return {number}
+ */
+var countBattleships = function(board) {
+    let width = board[0].length;
+    let height = board.length;
+    let tag_num = 0;
+    for (let i = 0; i &amp;lt; height; i ++) {
+        for (let j = 0; j &amp;lt; width; j ++) {
+            let cell = board[i][j];
+            if (cell == &#39;.&#39;) {
+                continue;
+            }
+            if (cell == &#39;X&#39; &amp;amp;&amp;amp; 
+            (i == 0 || board[i-1][j] == &#39;.&#39; )&amp;amp;&amp;amp;
+            ( j == 0 || board[i][j-1] == &#39;.&#39; ) ) {
+                //找到一个船的部分，并且左方和上方无其余部分的时候累加
+                tag_num ++;
+            }
+        }
+    }
+    return tag_num;
+};
+
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>Reverse String</title>
+      <link>http://harveyprince.github.io/blog/post/ReverseString/</link>
+      <pubDate>Thu, 20 Oct 2016 13:14:18 +0800</pubDate>
+      
+      <guid>http://harveyprince.github.io/blog/post/ReverseString/</guid>
+      <description>&lt;h3 id=&#34;问题描述&#34;&gt;问题描述&lt;/h3&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Write a function that takes a string as input and returns the string reversed.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Given &lt;code&gt;s = &amp;quot;hello&amp;quot;&lt;/code&gt;, &lt;code&gt;return &amp;quot;olleh&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;solution&#34;&gt;Solution&lt;/h3&gt;
+
+&lt;p&gt;最简单的方式就是让指针从末尾一直指向0，将指针位置的char累加至一个变量里&lt;/p&gt;
+
+&lt;p&gt;改进的做法是采用两个指针，一个从头开始，一个从尾开始，交换两个指针位置的值&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseString = function(s) {
+    let left = &#39;&#39;;
+    let right = &#39;&#39;;
+    for (var i = s.length-1,j=0; i &amp;gt; j; i--,j++) {
+        right = s[j] + right;
+        left += s[i];
+    }
+    
+    return left + (i==j?s[i]:&#39;&#39;) + right;
+};
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
       <title>Fizz Buzz</title>
       <link>http://harveyprince.github.io/blog/post/FizzBuzz/</link>
       <pubDate>Thu, 20 Oct 2016 12:37:17 +0800</pubDate>
       
       <guid>http://harveyprince.github.io/blog/post/FizzBuzz/</guid>
-      <description>&lt;h2 id=&#34;问题描述&#34;&gt;问题描述&lt;/h2&gt;
+      <description>&lt;h3 id=&#34;问题描述&#34;&gt;问题描述&lt;/h3&gt;
+
+&lt;hr /&gt;
 
 &lt;p&gt;Write a program that outputs the string representation of numbers from 1 to n.&lt;/p&gt;
 
 &lt;p&gt;But for multiples of three it should output “Fizz” instead of the number and for the multiples of five output “Buzz”. For numbers which are multiples of both three and five output “FizzBuzz”.&lt;/p&gt;
 
-&lt;p&gt;Example:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;n = 15,
 
@@ -145,7 +301,7 @@ var hammingWeight = function(n) {
 
 &lt;p&gt;Given a non negative integer number num. For every numbers i in the range &lt;code&gt;0 ≤ i ≤ num&lt;/code&gt; calculate the number of 1&amp;rsquo;s in their binary representation and return them as an array.&lt;/p&gt;
 
-&lt;p&gt;Example:
+&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt;
 For &lt;code&gt;num = 5&lt;/code&gt; you should &lt;code&gt;return [0,1,1,2,1,2]&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;Follow up:&lt;/p&gt;

@@ -22,11 +22,11 @@
   <link rel="feed" href="http://harveyprince.github.io/blog/index.xml" type="application/rss+xml" title="Jason Lab">
 
   <link rel="shortcut icon" href="/blog/img/favicon.ico" type="image/x-icon">
-  <link rel="canonical" href="http://harveyprince.github.io/blog/post/FizzBuzz/">
+  <link rel="canonical" href="http://harveyprince.github.io/blog/post/BattleshipsinaBoard/">
 
   
 
-  <title>Fizz Buzz | Jason Lab</title>
+  <title>Battle ships in a Board | Jason Lab</title>
 
 </head>
 <body id="top">
@@ -72,14 +72,14 @@
 
     
 
-    <h1 itemprop="name">Fizz Buzz</h1>
+    <h1 itemprop="name">Battle ships in a Board</h1>
 
     
 
 <div class="article-metadata">
 
   <span class="article-date">
-    <time datetime="2016-10-20 12:37:17 &#43;0800 CST" itemprop="datePublished">
+    <time datetime="2016-10-20 21:08:32 &#43;0800 CST" itemprop="datePublished">
       Thu, Oct 20, 2016
     </time>
   </span>
@@ -109,35 +109,35 @@
   <ul class="share">
     <li>
       <a class="facebook"
-         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fFizzBuzz%2f"
+         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fBattleshipsinaBoard%2f"
          target="_blank">
         <i class="fa fa-facebook"></i>
       </a>
     </li>
     <li>
       <a class="twitter"
-         href="https://twitter.com/intent/tweet?text=Fizz%20Buzz&amp;url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fFizzBuzz%2f"
+         href="https://twitter.com/intent/tweet?text=Battle%20ships%20in%20a%20Board&amp;url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fBattleshipsinaBoard%2f"
          target="_blank">
         <i class="fa fa-twitter"></i>
       </a>
     </li>
     <li>
       <a class="linkedin"
-         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fFizzBuzz%2f&amp;title=Fizz%20Buzz"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fBattleshipsinaBoard%2f&amp;title=Battle%20ships%20in%20a%20Board"
          target="_blank">
         <i class="fa fa-linkedin"></i>
       </a>
     </li>
     <li>
       <a class="weibo"
-         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fFizzBuzz%2f&amp;title=Fizz%20Buzz"
+         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fBattleshipsinaBoard%2f&amp;title=Battle%20ships%20in%20a%20Board"
          target="_blank">
         <i class="fa fa-weibo"></i>
       </a>
     </li>
     <li>
       <a class="email"
-         href="mailto:?subject=Fizz%20Buzz&amp;body=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fFizzBuzz%2f">
+         href="mailto:?subject=Battle%20ships%20in%20a%20Board&amp;body=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fBattleshipsinaBoard%2f">
         <i class="fa fa-envelope"></i>
       </a>
     </li>
@@ -155,52 +155,60 @@
 
 <hr />
 
-<p>Write a program that outputs the string representation of numbers from 1 to n.</p>
+<p>Given an 2D board, count how many different battleships are in it. The battleships are represented with <code>'X'</code>s, empty slots are represented with <code>'.'</code>s. You may assume the following rules:</p>
 
-<p>But for multiples of three it should output “Fizz” instead of the number and for the multiples of five output “Buzz”. For numbers which are multiples of both three and five output “FizzBuzz”.</p>
+<ul>
+<li>You receive a valid board, made of only battleships or empty slots.</li>
+<li>Battleships can only be placed horizontally or vertically. In other words, they can only be made of the shape <code>1xN</code> (1 row, N columns) or <code>Nx1</code> (N rows, 1 column), where N can be of any size.</li>
+<li>At least one horizontal or vertical cell separates between two battleships - there are no adjacent battleships.</li>
+</ul>
 
 <p><strong>Example:</strong></p>
 
-<pre><code>n = 15,
-
-Return:
-[
-    &quot;1&quot;,
-    &quot;2&quot;,
-    &quot;Fizz&quot;,
-    &quot;4&quot;,
-    &quot;Buzz&quot;,
-    &quot;Fizz&quot;,
-    &quot;7&quot;,
-    &quot;8&quot;,
-    &quot;Fizz&quot;,
-    &quot;Buzz&quot;,
-    &quot;11&quot;,
-    &quot;Fizz&quot;,
-    &quot;13&quot;,
-    &quot;14&quot;,
-    &quot;FizzBuzz&quot;
-]
+<pre><code>X..X
+...X
+...X
 </code></pre>
+
+<p>In the above board there are 2 battleships.</p>
+
+<pre><code>...X
+XXXX
+...X
+</code></pre>
+
+<p>This is not a valid board - as battleships will always have a cell separating between them.
+Your algorithm should not modify the value of the board.</p>
 
 <hr />
 
 <h3 id="solution">Solution</h3>
 
 <pre><code>/**
- * @param {number} n
- * @return {string[]}
+ * @param {character[][]} board
+ * @return {number}
  */
-var fizzBuzz = function(n) {
-    var res = [];
-    for (let i = 1; i &lt;=n ; i++) {
-        let name = '';
-        i%3 == 0?name+='Fizz':'';
-        i%5 == 0?name+='Buzz':'';
-        res.push(name==''?i .toString():name);
+var countBattleships = function(board) {
+    let width = board[0].length;
+    let height = board.length;
+    let tag_num = 0;
+    for (let i = 0; i &lt; height; i ++) {
+        for (let j = 0; j &lt; width; j ++) {
+            let cell = board[i][j];
+            if (cell == '.') {
+                continue;
+            }
+            if (cell == 'X' &amp;&amp; 
+            (i == 0 || board[i-1][j] == '.' )&amp;&amp;
+            ( j == 0 || board[i][j-1] == '.' ) ) {
+                //找到一个船的部分，并且左方和上方无其余部分的时候累加
+                tag_num ++;
+            }
+        }
     }
-    return res;
+    return tag_num;
 };
+
 </code></pre>
     </div>
 
@@ -209,12 +217,12 @@ var fizzBuzz = function(n) {
   <nav>
   <ul class="pager">
     
-    <li class="previous"><a href="http://harveyprince.github.io/blog/post/Numberof1Bits/"><span
-      aria-hidden="true">&larr;</span> Number of 1 Bits</a></li>
+    <li class="previous"><a href="http://harveyprince.github.io/blog/post/ReverseString/"><span
+      aria-hidden="true">&larr;</span> Reverse String</a></li>
     
 
     
-    <li class="next"><a href="http://harveyprince.github.io/blog/post/ReverseString/">Reverse String <span
+    <li class="next"><a href="http://harveyprince.github.io/blog/post/QueueReconstructionbyHeight/">Queue Reconstruction by Height <span
       aria-hidden="true">&rarr;</span></a></li>
     
   </ul>
@@ -226,9 +234,9 @@ var fizzBuzz = function(n) {
     <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'harveyprince';
-    var disqus_identifier = 'http:\/\/harveyprince.github.io\/blog\/post\/FizzBuzz\/';
-    var disqus_title = 'Fizz Buzz';
-    var disqus_url = 'http:\/\/harveyprince.github.io\/blog\/post\/FizzBuzz\/';
+    var disqus_identifier = 'http:\/\/harveyprince.github.io\/blog\/post\/BattleshipsinaBoard\/';
+    var disqus_title = 'Battle ships in a Board';
+    var disqus_url = 'http:\/\/harveyprince.github.io\/blog\/post\/BattleshipsinaBoard\/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
