@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.17" />
+  <meta name="author" content="Jason">
+  <meta name="description" content="Student">
+
+  <link rel="stylesheet" href="/blog/css/highlight.min.css">
+  <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/blog/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/blog/css/academicons.min.css">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700|Merriweather|Roboto+Mono">
+  <link rel="stylesheet" href="/blog/css/hugo-academic.css">
+  
+
+  <link rel="alternate" href="http://harveyprince.github.io/blog/index.xml" type="application/rss+xml" title="Jason Lab">
+  <link rel="feed" href="http://harveyprince.github.io/blog/index.xml" type="application/rss+xml" title="Jason Lab">
+
+  <link rel="shortcut icon" href="/blog/img/favicon.ico" type="image/x-icon">
+  <link rel="canonical" href="http://harveyprince.github.io/blog/post/AngularjsSourceCodeOverview/">
+
+  
+
+  <title>Angular1 Source Code Overview | Jason Lab</title>
+
+</head>
+<body id="top">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/blog/">Jason Lab</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse" id="#navbar-collapse-1">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li class="nav-item"><a href="/blog/#top">Home</a></li>
+        
+        <li class="nav-item"><a href="/blog/#posts">Posts</a></li>
+        
+        <li class="nav-item"><a href="/blog/#projects">Projects</a></li>
+        
+        <li class="nav-item"><a href="/blog/#contact">Contact</a></li>
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <article class="article" itemscope itemtype="http://schema.org/Article">
+
+    
+
+    <h1 itemprop="name">Angular1 Source Code Overview</h1>
+
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    <time datetime="2016-12-15 10:18:34 &#43;0800 CST" itemprop="datePublished">
+      Thu, Dec 15, 2016
+    </time>
+  </span>
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a class="article-tag-link" href="http://harveyprince.github.io/blog/tags/analyze">analyze</a
+    >, 
+    
+    <a class="article-tag-link" href="http://harveyprince.github.io/blog/tags/source-code">source code</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fAngularjsSourceCodeOverview%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Angular1%20Source%20Code%20Overview&amp;url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fAngularjsSourceCodeOverview%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fAngularjsSourceCodeOverview%2f&amp;title=Angular1%20Source%20Code%20Overview"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fAngularjsSourceCodeOverview%2f&amp;title=Angular1%20Source%20Code%20Overview"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Angular1%20Source%20Code%20Overview&amp;body=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fAngularjsSourceCodeOverview%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+    <div class="article-style" itemprop="articleBody">
+      <p>基于版本：1.6.0</p>
+
+<h2 id="概念解读">概念解读</h2>
+
+<hr />
+
+<p>先来搬运一下官方的doc</p>
+
+<p>其中介绍了一些框架内的重要概念
+</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">Concept</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">Template</td>
+<td align="left">HTML with additional markup</td>
+</tr>
+
+<tr>
+<td align="left">Directives</td>
+<td align="left">extend HTML with custom attributes and elements</td>
+</tr>
+
+<tr>
+<td align="left">Model</td>
+<td align="left">the data shown to the user in the view and with which the user interacts</td>
+</tr>
+
+<tr>
+<td align="left">Scope</td>
+<td align="left">context where the model is stored so that controllers, directives and expressions can access it</td>
+</tr>
+
+<tr>
+<td align="left">Expressions</td>
+<td align="left">access variables and functions from the scope</td>
+</tr>
+
+<tr>
+<td align="left">Compiler</td>
+<td align="left">parses the template and instantiates directives and expressions</td>
+</tr>
+
+<tr>
+<td align="left">Filter</td>
+<td align="left">formats the value of an expression for display to the user</td>
+</tr>
+
+<tr>
+<td align="left">View</td>
+<td align="left">what the user sees (the DOM)</td>
+</tr>
+
+<tr>
+<td align="left">Data Binding</td>
+<td align="left">sync data between the model and the view</td>
+</tr>
+
+<tr>
+<td align="left">Controller</td>
+<td align="left">the business logic behind views</td>
+</tr>
+
+<tr>
+<td align="left">Dependency Injection</td>
+<td align="left">Creates and wires objects and functions</td>
+</tr>
+
+<tr>
+<td align="left">Injector</td>
+<td align="left">dependency injection container</td>
+</tr>
+
+<tr>
+<td align="left">Module</td>
+<td align="left">a container for the different parts of an app including controllers, services, filters, directives which configures the Injector</td>
+</tr>
+
+<tr>
+<td align="left">Service</td>
+<td align="left">reusable business logic independent of views</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="这些概念存在的意义">这些概念存在的意义</h2>
+
+<hr />
+
+<h3 id="一个简单的例子">一个简单的例子</h3>
+
+<p><embed width="100%" height="500" src="https://embed.plnkr.co/beedjLQy1AqlCcgcixuN/" /></p>
+
+<p>这看起来很像普通的html，加上一些新的标记。在angular中，以这样的形式组织的语句叫做模版。
+当Angular启动应用时，它会使用<code>compiler</code>来转化和处理<code>template</code>中的新标记。
+加载、转化和渲染后的DOM称之为<code>view</code>。</p>
+
+<p>第一种新标记称之为<code>directives</code>。它们将特殊的行为应用到HTML中的attributes或者elements中。
+在这个例子中，我们使用了<code>ng-app</code>，它用来连接一个<code>directive</code>来实例化我们的应用。
+Angular自身还为<code>input</code>元素定义了一个directive来扩展该元素的行为。
+<code>ng-model</code>这个directive用来在变量和input filed中同步数据展示，即一个双向绑定。
+值得注意的是，在Angular中，<code>directive</code>是唯一一个可以直接接触DOM的地方。</p>
+
+<p>第二种新的标记形如<code>{{ expression | filter }}</code>，当compiler遇到这样的标记时，会用最终的计算结果来代替它。
+expression是一个js形式的代码语句，可以读写在该<code>scope</code>中存活的变量。存储在scope中的变量称之为<code>model</code>。
+这个例子还包含了一个<code>filter</code>，一个过滤器将数据格式化后展现给用户。</p>
+
+<p><img src="/blog/img/post/AngularjsSourceCodeOverview/concepts-databinding1.png" alt="concepts-databinding1" /></p>
+
+<p>这个例子展现了Angular的一个重要的绑定概念：无论何时当input的value发生了变化，expression中的value也会自动重新计算，
+并且将结果更新到DOM中去，这个概念称之为双向数据绑定。</p>
+
+<h3 id="一个controller的例子">一个controller的例子</h3>
+
+<p><embed width="100%" height="500" src="https://embed.plnkr.co/ICBcjB5SPnwqOUaegQQg/" /></p>
+
+<p>这里我们引入了<code>controller</code>，使用controller的目的是为了将一些变量和功能性的方法暴露给<code>expressions</code>和<code>directives</code>。
+我们在HTML中使用了<code>ng-controller</code>这个directive，这个directive告诉Angular一个新的<code>InvoiceController</code>负责处理存在该directive的元素以及其下的所有子元素。
+语句<code>InvoiceController as invoice</code>告诉Angular实例化该controller并且用变量<code>invoice</code>来存储到当前的scope中。
+于是可以在template里通过invoice来调用controller的变量和方法。</p>
+
+<p><img src="/blog/img/post/AngularjsSourceCodeOverview/concepts-databinding2.png" alt="concepts-databinding2" /></p>
+
+<h3 id="service-与视图无关的业务逻辑">service：与视图无关的业务逻辑</h3>
+
+<p><embed width="100%" height="500" src="https://embed.plnkr.co/bJ7Ci5uRFycAnuup7n9I/" /></p>
+
+<p>在上一个例子中，<code>controller</code>包含了所有的逻辑。然而当我们的应用不断增长壮大之后，一个良好的实践是将与视图无关的业务逻辑
+抽离到<code>service</code>中去，这使得这些方法可以被应用的其他部分进行复用。
+我们将<code>convertCurrency</code>和相关的定义移到了service中，但是controller是怎样获取并使用到一个已经分离出去的方法的呢？</p>
+
+<p>这就是<code>Dependency Injection</code>发挥作用的地方了。
+DI是一种软件设计模式，用来处理对象和方法的创建以及确保它们得到它们的依赖。
+Angular中的一切（directives,filters,controllers,services,&hellip;）都是通过DI创建并且管理的。
+在Angular里，DI的容器称之为<code>Injector</code>。</p>
+
+<p><img src="/blog/img/post/AngularjsSourceCodeOverview/concepts-module-injector.png" alt="concepts-module-injector" /></p>
+
+<p>为了使用DI，需要有一个地方使得所有事物一起工作并且注册，这就是在Angular中使用<code>modules</code>的目的。
+当Angular启动时，它会使用具有<code>ng-app</code>这一directive定义的名称的module的配置，
+同时包含了该module所依赖的所有modules的配置。</p>
+
+<p>在上述的例子中，这个template包含了directive <code>ng-app=&quot;invoice2&quot;</code>。这告诉Angular使用<code>invoice2</code>
+module作为本应用的主module。<code>angular.module(&quot;invoice2&quot;,[&quot;finance2&quot;])</code>表明了<code>invoice2</code>module依赖于
+<code>finance2</code>模块，通过这个，Angular使用<code>InvoiceController</code>以及<code>currencyConverter</code>服务。</p>
+
+<p>现在Angular知道了应用的所有部分，需要去创建它们。在前面我们知道controllers通过构造方法来创建。
+至于services，有很多种方法来指定它们的创建方式，在上述的例子中，我们使用<code>factory</code>来创建<code>currencyConverter</code>，
+此函数应该要返回currencyConverter service实例。</p>
+
+<blockquote>
+<p>这里牵扯到 factory和service的区别，factory最终需要显式返回一个实例，而service会以构造函数的形式创建服务</p>
+</blockquote>
+
+<p><img src="/blog/img/post/AngularjsSourceCodeOverview/concepts-module-service.png" alt="concepts-module-service" /></p>
+
+<p>回到最初的问题，InvoiceController是怎样获得currencyConverter的引用的？
+在Angular中，通过简单的在构造方法中定义arguments就可以做到。通过这种方式，<code>injector</code>就能够以正确的顺序
+创建对象，并且将先前创建的对象传递到依赖于它们的对象的工厂中。在上述的例子中，InvoiceController有一个argument叫做
+currencyConverter，通过这个，Angular就知道了controller和service之间的依赖关系，并且通过该service的实例来调用controller的构造函数进行实例化。</p>
+
+<p>至于我们在module.controller中传递了一个数组，是为了使得代码在经过压缩和uglify之后仍然能够正常工作的机制，因为这样arguments可能会被<code>a</code>这样的变量名替代。</p>
+
+<h3 id="data-binding">Data Binding</h3>
+
+<p>数据绑定在传统的模板系统中</p>
+
+<p><img src="/blog/img/post/AngularjsSourceCodeOverview/One_Way_Data_Binding.png" alt="One_Way_Data_Binding" /></p>
+
+<p>数据绑定在Angular模板系统中</p>
+
+<p><img src="/blog/img/post/AngularjsSourceCodeOverview/Two_Way_Data_Binding.png" alt="Two_Way_Data_Binding" /></p>
+
+<p>但也因此要特别注意不要造成死循环</p>
+    </div>
+
+  </article>
+
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="http://harveyprince.github.io/blog/post/QueueReconstructionbyHeight/"><span
+      aria-hidden="true">&larr;</span> Queue Reconstruction by Height</a></li>
+    
+
+    
+  </ul>
+</nav>
+
+  
+<section id="comments">
+  <div id="disqus_thread">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'harveyprince';
+    var disqus_identifier = 'http:\/\/harveyprince.github.io\/blog\/post\/AngularjsSourceCodeOverview\/';
+    var disqus_title = 'Angular1 Source Code Overview';
+    var disqus_url = 'http:\/\/harveyprince.github.io\/blog\/post\/AngularjsSourceCodeOverview\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </div>
+</section>
+
+
+
+</div>
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2016 Jason &middot; 
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/ScrollToPlugin.min.js"></script>
+    <script src="/blog/js/jquery-1.12.3.min.js"></script>
+    <script src="/blog/js/bootstrap.min.js"></script>
+    <script src="/blog/js/hugo-academic.js"></script>
+    
+
+    
+
+    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+  </body>
+</html>
+
