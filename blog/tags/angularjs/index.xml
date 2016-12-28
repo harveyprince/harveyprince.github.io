@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Jason Lab</title>
-    <link>http://harveyprince.github.io/blog/tags/source-code/index.xml</link>
+    <link>http://harveyprince.github.io/blog/tags/angularjs/index.xml</link>
     <description>Recent content on Jason Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016 Jason</copyright>
-    <atom:link href="/tags/source-code/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="/tags/angularjs/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Angular1 Source Code Injector</title>
