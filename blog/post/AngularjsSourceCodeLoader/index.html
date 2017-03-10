@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.17" />
+  <meta name="author" content="Jason">
+  <meta name="description" content="Student">
+
+  <link rel="stylesheet" href="/blog/css/highlight.min.css">
+  <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/blog/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/blog/css/academicons.min.css">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700|Merriweather|Roboto+Mono">
+  <link rel="stylesheet" href="/blog/css/hugo-academic.css">
+  
+
+  <link rel="alternate" href="http://harveyprince.github.io/blog/index.xml" type="application/rss+xml" title="Jason Lab">
+  <link rel="feed" href="http://harveyprince.github.io/blog/index.xml" type="application/rss+xml" title="Jason Lab">
+
+  <link rel="shortcut icon" href="/blog/img/favicon.ico" type="image/x-icon">
+  <link rel="canonical" href="http://harveyprince.github.io/blog/post/AngularjsSourceCodeLoader/">
+
+  
+
+  <title>Angular1 Source Code Loader | Jason Lab</title>
+
+</head>
+<body id="top">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/blog/">Jason Lab</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse" id="#navbar-collapse-1">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li class="nav-item"><a href="/blog/#top">Home</a></li>
+        
+        <li class="nav-item"><a href="/blog/#posts">Posts</a></li>
+        
+        <li class="nav-item"><a href="/blog/#projects">Projects</a></li>
+        
+        <li class="nav-item"><a href="/blog/#contact">Contact</a></li>
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <article class="article" itemscope itemtype="http://schema.org/Article">
+
+    
+
+    <h1 itemprop="name">Angular1 Source Code Loader</h1>
+
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    <time datetime="2017-03-06 19:10:05 &#43;0800 CST" itemprop="datePublished">
+      Mon, Mar 6, 2017
+    </time>
+  </span>
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a class="article-tag-link" href="http://harveyprince.github.io/blog/tags/analyze">analyze</a
+    >, 
+    
+    <a class="article-tag-link" href="http://harveyprince.github.io/blog/tags/source-code">source code</a
+    >, 
+    
+    <a class="article-tag-link" href="http://harveyprince.github.io/blog/tags/angularjs">AngularJS</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fAngularjsSourceCodeLoader%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Angular1%20Source%20Code%20Loader&amp;url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fAngularjsSourceCodeLoader%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fAngularjsSourceCodeLoader%2f&amp;title=Angular1%20Source%20Code%20Loader"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fAngularjsSourceCodeLoader%2f&amp;title=Angular1%20Source%20Code%20Loader"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Angular1%20Source%20Code%20Loader&amp;body=http%3a%2f%2fharveyprince.github.io%2fblog%2fpost%2fAngularjsSourceCodeLoader%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+    <div class="article-style" itemprop="articleBody">
+      <p>基于版本：1.6.0</p>
+
+<h2 id="loader">Loader</h2>
+
+<hr />
+
+<p>Injector的章节我们说到了关于module的部分，关于模块的载入等都集中在了loader.js。
+我们来看看<code>'src/loader.js'</code>。
+</p>
+
+<h2 id="loader是如何工作的">loader是如何工作的</h2>
+
+<hr />
+
+<p>在loader中，整体被一个函数包裹</p>
+
+<pre><code>    function setupModuleLoader(window) {
+    
+      var $injectorMinErr = minErr('$injector');
+      var ngMinErr = minErr('ng');
+    
+      function ensure(obj, name, factory) {
+        return obj[name] || (obj[name] = factory());
+      }
+    
+      var angular = ensure(window, 'angular', Object);
+    
+      // We need to expose `angular.$$minErr` to modules such as `ngResource` that reference it during bootstrap
+      angular.$$minErr = angular.$$minErr || minErr;
+      
+      return ensure(angular, 'module', function() {
+        var modules = {};
+        return function module(name, requires, configFn){...};
+      });
+      
+    }
+
+</code></pre>
+
+<p>可以看出，<code>ensure</code>函数用来防止模块定义冲突，如果存在该模块定义则直接返回，否则执行<code>factory</code>函数，获得并返回模块对象。
+这里<code>ensure</code>了<code>angular</code>的定义，如果不存在则赋予一个空的object对象。</p>
+
+<p>并且紧接着<code>ensure</code>了<code>angular</code>中<code>module</code>的定义。
+最终<code>angular.module</code>就相当于<code>function module(name, requires, configFn){...}</code>
+用了闭包使得<code>modules</code>成为一个private变量。</p>
+
+<p>来看看我们平常是如何声明并使用<code>module</code>的。
+<code>angular.module('MyApp', [...requires])</code>
+对应下来name为MyApp，[&hellip;]为requires，即模块所依赖的模块。
+来看看<code>function module</code>的具体实现。</p>
+
+<pre><code>    if (requires &amp;&amp; modules.hasOwnProperty(name)) {
+        modules[name] = null;
+    }
+</code></pre>
+
+<p>如果已存在该模块定义，则清空重新进行定义
+然后通过<code>ensure</code>来创建<code>modules</code>中<code>name</code>的定义。</p>
+
+<p>函数最终<code>return moduleInstance;</code>
+来看看关于moduleInstance的定义</p>
+
+<pre><code>    var moduleInstance = {
+        // Private state
+        _invokeQueue: invokeQueue,
+        _configBlocks: configBlocks,
+        _runBlocks: runBlocks,
+        
+        requires: requires,
+        name: name,
+        provider: invokeLaterAndSetModuleName('$provide', 'provider'),
+        factory: invokeLaterAndSetModuleName('$provide', 'factory'),
+        service: invokeLaterAndSetModuleName('$provide', 'service'),
+        value: invokeLater('$provide', 'value'),
+        constant: invokeLater('$provide', 'constant', 'unshift'),
+        decorator: invokeLaterAndSetModuleName('$provide', 'decorator', configBlocks),
+        animation: invokeLaterAndSetModuleName('$animateProvider', 'register'),
+        filter: invokeLaterAndSetModuleName('$filterProvider', 'register'),
+        controller: invokeLaterAndSetModuleName('$controllerProvider', 'register'),
+        directive: invokeLaterAndSetModuleName('$compileProvider', 'directive'),
+        component: invokeLaterAndSetModuleName('$compileProvider', 'component'),
+        config: config,
+        run: function(block) {
+            runBlocks.push(block);
+            return this;
+        }
+        
+    }
+</code></pre>
+
+<p>可以看到，我们常用的用来定义app功能的方法都带上了<code>invokeLater*</code>的字样。来看看关于<code>invokeLater</code>和<code>invokeLaterAndSetModuleName</code>的定义</p>
+
+<pre><code>    function invokeLater(provider, method, insertMethod, queue) {
+      if (!queue) queue = invokeQueue;
+      return function() {
+        queue[insertMethod || 'push']([provider, method, arguments]);
+        return moduleInstance;
+      };
+    }
+            
+    function invokeLaterAndSetModuleName(provider, method, queue) {
+      if (!queue) queue = invokeQueue;
+      return function(recipeName, factoryFunction) {
+        if (factoryFunction &amp;&amp; isFunction(factoryFunction)) factoryFunction.$$moduleName = name;
+        queue.push([provider, method, arguments]);
+        return moduleInstance;
+      };
+    }
+
+</code></pre>
+
+<p>可以看到，向queue中添加了形如<code>[provider,method,arguments]</code>这样的以数组形式组织的元组。
+所以当我们在真正调用<code>angular.module</code>之后的<code>.controller .filter .directive</code>这样的方法之后，我们所定义的内容都被加入了<code>queue</code>中等待<code>invoke</code>。
+每次调用也都返回了<code>moduleInstance</code>，所以可以进行链式调用。</p>
+
+<p>解读完这部分，就可以回到我们上一章的<code>Injector</code>，继续看module是如何invoke的了。</p>
+
+<h2 id="回到injector">回到Injector</h2>
+
+<hr />
+
+<p>上一章我们留下了module相关的部分。</p>
+
+<pre><code>    var runBlocks = loadModules(modulesToLoad);
+    //省略
+    forEach(runBlocks, function(fn) { if (fn) instanceInjector.invoke(fn); });
+</code></pre>
+
+<p>关于loadModules的定义</p>
+
+<pre><code>    function loadModules(modulesToLoad) {
+        assertArg(isUndefined(modulesToLoad) || isArray(modulesToLoad), 'modulesToLoad', 'not an array');
+        var runBlocks = [], moduleFn;
+        forEach(modulesToLoad, function(module) {
+          //如果模块已经加载，直接返回
+          if (loadedModules.get(module)) return;
+          //没有加载时，设置为已加载，并继续执行
+          loadedModules.put(module, true);
+          //执行invoke队列的函数声明
+          function runInvokeQueue(queue) {
+            var i, ii;
+            for (i = 0, ii = queue.length; i &lt; ii; i++) {
+              var invokeArgs = queue[i],
+                  provider = providerInjector.get(invokeArgs[0]);
+    
+              provider[invokeArgs[1]].apply(provider, invokeArgs[2]);
+            }
+          }
+    
+          try {
+            if (isString(module)) {
+              moduleFn = angularModule(module);
+              //这里递归加载所有依赖的模块
+              runBlocks = runBlocks.concat(loadModules(moduleFn.requires)).concat(moduleFn._runBlocks);
+              //执行invoke队列
+              runInvokeQueue(moduleFn._invokeQueue);
+              runInvokeQueue(moduleFn._configBlocks);
+            } else if (isFunction(module)) {
+                runBlocks.push(providerInjector.invoke(module));
+            } else if (isArray(module)) {
+                runBlocks.push(providerInjector.invoke(module));
+            } else {
+              assertArgFn(module, 'module');
+            }
+          } catch (e) {
+            if (isArray(module)) {
+              module = module[module.length - 1];
+            }
+            if (e.message &amp;&amp; e.stack &amp;&amp; e.stack.indexOf(e.message) === -1) {
+              // Safari &amp; FF's stack traces don't contain error.message content
+              // unlike those of Chrome and IE
+              // So if stack doesn't contain message, we create a new string that contains both.
+              // Since error.stack is read-only in Safari, I'm overriding e and not e.stack here.
+              // eslint-disable-next-line no-ex-assign
+              e = e.message + '\n' + e.stack;
+            }
+            throw $injectorMinErr('modulerr', 'Failed to instantiate module {0} due to:\n{1}',
+                      module, e.stack || e.message || e);
+          }
+        });
+        return runBlocks;
+      }
+
+</code></pre>
+
+<p>通过断点观察执行情况
+可以看出，函数通过<code>queue</code>中的每一个元组拿到<code>provider</code>，并使用<code>provider</code>的相关方法来调用所存储的参数。
+<img src="/blog/img/post/AngularjsSourceCodeLoader/loader1.png" alt="loader1" />
+我们还可以观察到，一些并未在<code>provider</code>中定义的Provider也进行了调用，比如<code>controller</code>
+<img src="/blog/img/post/AngularjsSourceCodeLoader/loader2.png" alt="loader2" />
+在项目中进行检索，可以看到，在<code>AngularPublic</code>中进行了大量的provider注册</p>
+
+<pre><code>  //setupModuleLoader在这里进行了调用
+  angularModule = setupModuleLoader(window);
+
+  //进行了核心ng模块的声明
+  angularModule('ng', ['ngLocale'], ['$provide',
+    function ngModule($provide) {
+      // $$sanitizeUriProvider needs to be before $compileProvider as it is used by it.
+      $provide.provider({
+        $$sanitizeUri: $$SanitizeUriProvider
+      });
+      //directive是$CompileProvider下的一个方法
+      $provide.provider('$compile', $CompileProvider).
+        //provider方法返回了$CompileProvider，所以可以调用directive
+        directive({
+            a: htmlAnchorDirective,
+            input: inputDirective,
+            textarea: inputDirective,
+            form: formDirective,
+            script: scriptDirective,
+            select: selectDirective,
+            option: optionDirective,
+            ngBind: ngBindDirective,
+            ngBindHtml: ngBindHtmlDirective,
+            ngBindTemplate: ngBindTemplateDirective,
+            ngClass: ngClassDirective,
+            ngClassEven: ngClassEvenDirective,
+            ngClassOdd: ngClassOddDirective,
+            ngCloak: ngCloakDirective,
+            ngController: ngControllerDirective,
+            ngForm: ngFormDirective,
+            ngHide: ngHideDirective,
+            ngIf: ngIfDirective,
+            ngInclude: ngIncludeDirective,
+            ngInit: ngInitDirective,
+            ngNonBindable: ngNonBindableDirective,
+            ngPluralize: ngPluralizeDirective,
+            ngRepeat: ngRepeatDirective,
+            ngShow: ngShowDirective,
+            ngStyle: ngStyleDirective,
+            ngSwitch: ngSwitchDirective,
+            ngSwitchWhen: ngSwitchWhenDirective,
+            ngSwitchDefault: ngSwitchDefaultDirective,
+            ngOptions: ngOptionsDirective,
+            ngTransclude: ngTranscludeDirective,
+            ngModel: ngModelDirective,
+            ngList: ngListDirective,
+            ngChange: ngChangeDirective,
+            pattern: patternDirective,
+            ngPattern: patternDirective,
+            required: requiredDirective,
+            ngRequired: requiredDirective,
+            minlength: minlengthDirective,
+            ngMinlength: minlengthDirective,
+            maxlength: maxlengthDirective,
+            ngMaxlength: maxlengthDirective,
+            ngValue: ngValueDirective,
+            ngModelOptions: ngModelOptionsDirective
+        }).
+        directive({
+          ngInclude: ngIncludeFillContentDirective
+        }).
+        directive(ngAttributeAliasDirectives).
+        directive(ngEventDirectives);
+      $provide.provider({
+        $anchorScroll: $AnchorScrollProvider,
+        $animate: $AnimateProvider,
+        $animateCss: $CoreAnimateCssProvider,
+        $$animateJs: $$CoreAnimateJsProvider,
+        $$animateQueue: $$CoreAnimateQueueProvider,
+        $$AnimateRunner: $$AnimateRunnerFactoryProvider,
+        $$animateAsyncRun: $$AnimateAsyncRunFactoryProvider,
+        $browser: $BrowserProvider,
+        $cacheFactory: $CacheFactoryProvider,
+        $controller: $ControllerProvider,
+        $document: $DocumentProvider,
+        $$isDocumentHidden: $$IsDocumentHiddenProvider,
+        $exceptionHandler: $ExceptionHandlerProvider,
+        $filter: $FilterProvider,
+        $$forceReflow: $$ForceReflowProvider,
+        $interpolate: $InterpolateProvider,
+        $interval: $IntervalProvider,
+        $http: $HttpProvider,
+        $httpParamSerializer: $HttpParamSerializerProvider,
+        $httpParamSerializerJQLike: $HttpParamSerializerJQLikeProvider,
+        $httpBackend: $HttpBackendProvider,
+        $xhrFactory: $xhrFactoryProvider,
+        $jsonpCallbacks: $jsonpCallbacksProvider,
+        $location: $LocationProvider,
+        $log: $LogProvider,
+        $parse: $ParseProvider,
+        $rootScope: $RootScopeProvider,
+        $q: $QProvider,
+        $$q: $$QProvider,
+        $sce: $SceProvider,
+        $sceDelegate: $SceDelegateProvider,
+        $sniffer: $SnifferProvider,
+        $templateCache: $TemplateCacheProvider,
+        $templateRequest: $TemplateRequestProvider,
+        $$testability: $$TestabilityProvider,
+        $timeout: $TimeoutProvider,
+        $window: $WindowProvider,
+        $$rAF: $$RAFProvider,
+        $$jqLite: $$jqLiteProvider,
+        $$HashMap: $$HashMapProvider,
+        $$cookieReader: $$CookieReaderProvider
+      });
+    }
+  ]);
+</code></pre>
+
+<p>按我们之前的理解，<code>provider</code>方法是传入一个name和一个factory方法进行定义，不过我们之前有一个不理解用途的方法<code>supportObject</code>,
+从此处的<code>provider({...})</code>便能猜想出用途了。</p>
+
+<p>即传入一个对象，可以进行批量的<code>provider</code>注册。</p>
+
+<p>至此，我们基本上已经理解了所有的依赖注入问题。</p>
+
+<pre><code>    var runBlocks = loadModules(modulesToLoad);
+    //省略
+    forEach(runBlocks, function(fn) { if (fn) instanceInjector.invoke(fn); });
+</code></pre>
+
+<p>这里将最终的runBlocks进行forEach然后invoke，关于runBlocks</p>
+
+<pre><code>        if (isString(module)) {
+          moduleFn = angularModule(module);
+          //这里递归加载所有依赖的模块
+          //runBlocks是一个局部变量，每一次loadModules，都是一个新的runBlocks，所以requires会被放在前面
+          runBlocks = runBlocks.concat(loadModules(moduleFn.requires)).concat(moduleFn._runBlocks);
+          //执行invoke队列
+          runInvokeQueue(moduleFn._invokeQueue);
+          runInvokeQueue(moduleFn._configBlocks);
+        } else if (isFunction(module)) {
+            runBlocks.push(providerInjector.invoke(module));
+        } else if (isArray(module)) {
+            runBlocks.push(providerInjector.invoke(module));
+        } else {
+          assertArgFn(module, 'module');
+        }
+</code></pre>
+
+<p>这里module会是Function或者Array。
+来看看modulesToLoad是怎样的传入形式，在injector中，是通过</p>
+
+<pre><code>    function createInjector(modulesToLoad, strictDi)
+</code></pre>
+
+<p>进行传入的，进行该函数的调用检索，在<code>'Angular.js'</code>中</p>
+
+<pre><code>    function bootstrap(element, modules, config) {
+        if (!isObject(config)) config = {};
+        var defaultConfig = {...};
+        config = extend(defaultConfig, config);
+        var doBootstrap = function() {
+        element = jqLite(element);
+        
+        if (element.injector()) {...}
+        
+        modules = modules || [];
+        modules.unshift(['$provide', function($provide) {
+          $provide.value('$rootElement', element);
+        }]);
+        
+        if (config.debugInfoEnabled) {...}
+        
+        modules.unshift('ng');
+        //这里调用了createInjector
+        var injector = createInjector(modules, config.strictDi);
+        injector.invoke(['$rootScope', '$rootElement', '$compile', '$injector',
+           function bootstrapApply(scope, element, compile, injector) {
+            scope.$apply(function() {
+              element.data('$injector', injector);
+              compile(element)(scope);
+            });
+          }]
+        );
+        return injector;
+    }
+</code></pre>
+
+<p>来看看bootstrap的调用例子</p>
+
+<pre><code>    var app = angular.module('demo', [])
+      .controller('WelcomeController', function($scope) {
+          $scope.greeting = 'Welcome!';
+      });
+      angular.bootstrap(document, ['demo']);
+</code></pre>
+
+<p>目前只看到<code>module</code>传入<code>Array&lt;String&gt;</code>的例子</p>
+    </div>
+
+  </article>
+
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="http://harveyprince.github.io/blog/post/AngularjsSourceCodeInjector/"><span
+      aria-hidden="true">&larr;</span> Angular1 Source Code Injector</a></li>
+    
+
+    
+  </ul>
+</nav>
+
+  
+<section id="comments">
+  <div id="disqus_thread">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'harveyprince';
+    var disqus_identifier = 'http:\/\/harveyprince.github.io\/blog\/post\/AngularjsSourceCodeLoader\/';
+    var disqus_title = 'Angular1 Source Code Loader';
+    var disqus_url = 'http:\/\/harveyprince.github.io\/blog\/post\/AngularjsSourceCodeLoader\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </div>
+</section>
+
+
+
+</div>
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2016 Jason &middot; 
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/ScrollToPlugin.min.js"></script>
+    <script src="/blog/js/jquery-1.12.3.min.js"></script>
+    <script src="/blog/js/bootstrap.min.js"></script>
+    <script src="/blog/js/hugo-academic.js"></script>
+    
+
+    
+
+    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+  </body>
+</html>
+

@@ -7,8 +7,398 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2016 Jason</copyright>
-    <lastBuildDate>Mon, 26 Dec 2016 20:30:26 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 06 Mar 2017 19:10:05 +0800</lastBuildDate>
     <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Angular1 Source Code Loader</title>
+      <link>http://harveyprince.github.io/blog/post/AngularjsSourceCodeLoader/</link>
+      <pubDate>Mon, 06 Mar 2017 19:10:05 +0800</pubDate>
+      
+      <guid>http://harveyprince.github.io/blog/post/AngularjsSourceCodeLoader/</guid>
+      <description>&lt;p&gt;基于版本：1.6.0&lt;/p&gt;
+
+&lt;h2 id=&#34;loader&#34;&gt;Loader&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Injector的章节我们说到了关于module的部分，关于模块的载入等都集中在了loader.js。
+我们来看看&lt;code&gt;&#39;src/loader.js&#39;&lt;/code&gt;。
+&lt;/p&gt;
+
+&lt;h2 id=&#34;loader是如何工作的&#34;&gt;loader是如何工作的&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;在loader中，整体被一个函数包裹&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    function setupModuleLoader(window) {
+    
+      var $injectorMinErr = minErr(&#39;$injector&#39;);
+      var ngMinErr = minErr(&#39;ng&#39;);
+    
+      function ensure(obj, name, factory) {
+        return obj[name] || (obj[name] = factory());
+      }
+    
+      var angular = ensure(window, &#39;angular&#39;, Object);
+    
+      // We need to expose `angular.$$minErr` to modules such as `ngResource` that reference it during bootstrap
+      angular.$$minErr = angular.$$minErr || minErr;
+      
+      return ensure(angular, &#39;module&#39;, function() {
+        var modules = {};
+        return function module(name, requires, configFn){...};
+      });
+      
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以看出，&lt;code&gt;ensure&lt;/code&gt;函数用来防止模块定义冲突，如果存在该模块定义则直接返回，否则执行&lt;code&gt;factory&lt;/code&gt;函数，获得并返回模块对象。
+这里&lt;code&gt;ensure&lt;/code&gt;了&lt;code&gt;angular&lt;/code&gt;的定义，如果不存在则赋予一个空的object对象。&lt;/p&gt;
+
+&lt;p&gt;并且紧接着&lt;code&gt;ensure&lt;/code&gt;了&lt;code&gt;angular&lt;/code&gt;中&lt;code&gt;module&lt;/code&gt;的定义。
+最终&lt;code&gt;angular.module&lt;/code&gt;就相当于&lt;code&gt;function module(name, requires, configFn){...}&lt;/code&gt;
+用了闭包使得&lt;code&gt;modules&lt;/code&gt;成为一个private变量。&lt;/p&gt;
+
+&lt;p&gt;来看看我们平常是如何声明并使用&lt;code&gt;module&lt;/code&gt;的。
+&lt;code&gt;angular.module(&#39;MyApp&#39;, [...requires])&lt;/code&gt;
+对应下来name为MyApp，[&amp;hellip;]为requires，即模块所依赖的模块。
+来看看&lt;code&gt;function module&lt;/code&gt;的具体实现。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    if (requires &amp;amp;&amp;amp; modules.hasOwnProperty(name)) {
+        modules[name] = null;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果已存在该模块定义，则清空重新进行定义
+然后通过&lt;code&gt;ensure&lt;/code&gt;来创建&lt;code&gt;modules&lt;/code&gt;中&lt;code&gt;name&lt;/code&gt;的定义。&lt;/p&gt;
+
+&lt;p&gt;函数最终&lt;code&gt;return moduleInstance;&lt;/code&gt;
+来看看关于moduleInstance的定义&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    var moduleInstance = {
+        // Private state
+        _invokeQueue: invokeQueue,
+        _configBlocks: configBlocks,
+        _runBlocks: runBlocks,
+        
+        requires: requires,
+        name: name,
+        provider: invokeLaterAndSetModuleName(&#39;$provide&#39;, &#39;provider&#39;),
+        factory: invokeLaterAndSetModuleName(&#39;$provide&#39;, &#39;factory&#39;),
+        service: invokeLaterAndSetModuleName(&#39;$provide&#39;, &#39;service&#39;),
+        value: invokeLater(&#39;$provide&#39;, &#39;value&#39;),
+        constant: invokeLater(&#39;$provide&#39;, &#39;constant&#39;, &#39;unshift&#39;),
+        decorator: invokeLaterAndSetModuleName(&#39;$provide&#39;, &#39;decorator&#39;, configBlocks),
+        animation: invokeLaterAndSetModuleName(&#39;$animateProvider&#39;, &#39;register&#39;),
+        filter: invokeLaterAndSetModuleName(&#39;$filterProvider&#39;, &#39;register&#39;),
+        controller: invokeLaterAndSetModuleName(&#39;$controllerProvider&#39;, &#39;register&#39;),
+        directive: invokeLaterAndSetModuleName(&#39;$compileProvider&#39;, &#39;directive&#39;),
+        component: invokeLaterAndSetModuleName(&#39;$compileProvider&#39;, &#39;component&#39;),
+        config: config,
+        run: function(block) {
+            runBlocks.push(block);
+            return this;
+        }
+        
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以看到，我们常用的用来定义app功能的方法都带上了&lt;code&gt;invokeLater*&lt;/code&gt;的字样。来看看关于&lt;code&gt;invokeLater&lt;/code&gt;和&lt;code&gt;invokeLaterAndSetModuleName&lt;/code&gt;的定义&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    function invokeLater(provider, method, insertMethod, queue) {
+      if (!queue) queue = invokeQueue;
+      return function() {
+        queue[insertMethod || &#39;push&#39;]([provider, method, arguments]);
+        return moduleInstance;
+      };
+    }
+            
+    function invokeLaterAndSetModuleName(provider, method, queue) {
+      if (!queue) queue = invokeQueue;
+      return function(recipeName, factoryFunction) {
+        if (factoryFunction &amp;amp;&amp;amp; isFunction(factoryFunction)) factoryFunction.$$moduleName = name;
+        queue.push([provider, method, arguments]);
+        return moduleInstance;
+      };
+    }
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以看到，向queue中添加了形如&lt;code&gt;[provider,method,arguments]&lt;/code&gt;这样的以数组形式组织的元组。
+所以当我们在真正调用&lt;code&gt;angular.module&lt;/code&gt;之后的&lt;code&gt;.controller .filter .directive&lt;/code&gt;这样的方法之后，我们所定义的内容都被加入了&lt;code&gt;queue&lt;/code&gt;中等待&lt;code&gt;invoke&lt;/code&gt;。
+每次调用也都返回了&lt;code&gt;moduleInstance&lt;/code&gt;，所以可以进行链式调用。&lt;/p&gt;
+
+&lt;p&gt;解读完这部分，就可以回到我们上一章的&lt;code&gt;Injector&lt;/code&gt;，继续看module是如何invoke的了。&lt;/p&gt;
+
+&lt;h2 id=&#34;回到injector&#34;&gt;回到Injector&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;上一章我们留下了module相关的部分。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    var runBlocks = loadModules(modulesToLoad);
+    //省略
+    forEach(runBlocks, function(fn) { if (fn) instanceInjector.invoke(fn); });
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;关于loadModules的定义&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    function loadModules(modulesToLoad) {
+        assertArg(isUndefined(modulesToLoad) || isArray(modulesToLoad), &#39;modulesToLoad&#39;, &#39;not an array&#39;);
+        var runBlocks = [], moduleFn;
+        forEach(modulesToLoad, function(module) {
+          //如果模块已经加载，直接返回
+          if (loadedModules.get(module)) return;
+          //没有加载时，设置为已加载，并继续执行
+          loadedModules.put(module, true);
+          //执行invoke队列的函数声明
+          function runInvokeQueue(queue) {
+            var i, ii;
+            for (i = 0, ii = queue.length; i &amp;lt; ii; i++) {
+              var invokeArgs = queue[i],
+                  provider = providerInjector.get(invokeArgs[0]);
+    
+              provider[invokeArgs[1]].apply(provider, invokeArgs[2]);
+            }
+          }
+    
+          try {
+            if (isString(module)) {
+              moduleFn = angularModule(module);
+              //这里递归加载所有依赖的模块
+              runBlocks = runBlocks.concat(loadModules(moduleFn.requires)).concat(moduleFn._runBlocks);
+              //执行invoke队列
+              runInvokeQueue(moduleFn._invokeQueue);
+              runInvokeQueue(moduleFn._configBlocks);
+            } else if (isFunction(module)) {
+                runBlocks.push(providerInjector.invoke(module));
+            } else if (isArray(module)) {
+                runBlocks.push(providerInjector.invoke(module));
+            } else {
+              assertArgFn(module, &#39;module&#39;);
+            }
+          } catch (e) {
+            if (isArray(module)) {
+              module = module[module.length - 1];
+            }
+            if (e.message &amp;amp;&amp;amp; e.stack &amp;amp;&amp;amp; e.stack.indexOf(e.message) === -1) {
+              // Safari &amp;amp; FF&#39;s stack traces don&#39;t contain error.message content
+              // unlike those of Chrome and IE
+              // So if stack doesn&#39;t contain message, we create a new string that contains both.
+              // Since error.stack is read-only in Safari, I&#39;m overriding e and not e.stack here.
+              // eslint-disable-next-line no-ex-assign
+              e = e.message + &#39;\n&#39; + e.stack;
+            }
+            throw $injectorMinErr(&#39;modulerr&#39;, &#39;Failed to instantiate module {0} due to:\n{1}&#39;,
+                      module, e.stack || e.message || e);
+          }
+        });
+        return runBlocks;
+      }
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;通过断点观察执行情况
+可以看出，函数通过&lt;code&gt;queue&lt;/code&gt;中的每一个元组拿到&lt;code&gt;provider&lt;/code&gt;，并使用&lt;code&gt;provider&lt;/code&gt;的相关方法来调用所存储的参数。
+&lt;img src=&#34;http://harveyprince.github.io/blog/blog/img/post/AngularjsSourceCodeLoader/loader1.png&#34; alt=&#34;loader1&#34; /&gt;
+我们还可以观察到，一些并未在&lt;code&gt;provider&lt;/code&gt;中定义的Provider也进行了调用，比如&lt;code&gt;controller&lt;/code&gt;
+&lt;img src=&#34;http://harveyprince.github.io/blog/blog/img/post/AngularjsSourceCodeLoader/loader2.png&#34; alt=&#34;loader2&#34; /&gt;
+在项目中进行检索，可以看到，在&lt;code&gt;AngularPublic&lt;/code&gt;中进行了大量的provider注册&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  //setupModuleLoader在这里进行了调用
+  angularModule = setupModuleLoader(window);
+
+  //进行了核心ng模块的声明
+  angularModule(&#39;ng&#39;, [&#39;ngLocale&#39;], [&#39;$provide&#39;,
+    function ngModule($provide) {
+      // $$sanitizeUriProvider needs to be before $compileProvider as it is used by it.
+      $provide.provider({
+        $$sanitizeUri: $$SanitizeUriProvider
+      });
+      //directive是$CompileProvider下的一个方法
+      $provide.provider(&#39;$compile&#39;, $CompileProvider).
+        //provider方法返回了$CompileProvider，所以可以调用directive
+        directive({
+            a: htmlAnchorDirective,
+            input: inputDirective,
+            textarea: inputDirective,
+            form: formDirective,
+            script: scriptDirective,
+            select: selectDirective,
+            option: optionDirective,
+            ngBind: ngBindDirective,
+            ngBindHtml: ngBindHtmlDirective,
+            ngBindTemplate: ngBindTemplateDirective,
+            ngClass: ngClassDirective,
+            ngClassEven: ngClassEvenDirective,
+            ngClassOdd: ngClassOddDirective,
+            ngCloak: ngCloakDirective,
+            ngController: ngControllerDirective,
+            ngForm: ngFormDirective,
+            ngHide: ngHideDirective,
+            ngIf: ngIfDirective,
+            ngInclude: ngIncludeDirective,
+            ngInit: ngInitDirective,
+            ngNonBindable: ngNonBindableDirective,
+            ngPluralize: ngPluralizeDirective,
+            ngRepeat: ngRepeatDirective,
+            ngShow: ngShowDirective,
+            ngStyle: ngStyleDirective,
+            ngSwitch: ngSwitchDirective,
+            ngSwitchWhen: ngSwitchWhenDirective,
+            ngSwitchDefault: ngSwitchDefaultDirective,
+            ngOptions: ngOptionsDirective,
+            ngTransclude: ngTranscludeDirective,
+            ngModel: ngModelDirective,
+            ngList: ngListDirective,
+            ngChange: ngChangeDirective,
+            pattern: patternDirective,
+            ngPattern: patternDirective,
+            required: requiredDirective,
+            ngRequired: requiredDirective,
+            minlength: minlengthDirective,
+            ngMinlength: minlengthDirective,
+            maxlength: maxlengthDirective,
+            ngMaxlength: maxlengthDirective,
+            ngValue: ngValueDirective,
+            ngModelOptions: ngModelOptionsDirective
+        }).
+        directive({
+          ngInclude: ngIncludeFillContentDirective
+        }).
+        directive(ngAttributeAliasDirectives).
+        directive(ngEventDirectives);
+      $provide.provider({
+        $anchorScroll: $AnchorScrollProvider,
+        $animate: $AnimateProvider,
+        $animateCss: $CoreAnimateCssProvider,
+        $$animateJs: $$CoreAnimateJsProvider,
+        $$animateQueue: $$CoreAnimateQueueProvider,
+        $$AnimateRunner: $$AnimateRunnerFactoryProvider,
+        $$animateAsyncRun: $$AnimateAsyncRunFactoryProvider,
+        $browser: $BrowserProvider,
+        $cacheFactory: $CacheFactoryProvider,
+        $controller: $ControllerProvider,
+        $document: $DocumentProvider,
+        $$isDocumentHidden: $$IsDocumentHiddenProvider,
+        $exceptionHandler: $ExceptionHandlerProvider,
+        $filter: $FilterProvider,
+        $$forceReflow: $$ForceReflowProvider,
+        $interpolate: $InterpolateProvider,
+        $interval: $IntervalProvider,
+        $http: $HttpProvider,
+        $httpParamSerializer: $HttpParamSerializerProvider,
+        $httpParamSerializerJQLike: $HttpParamSerializerJQLikeProvider,
+        $httpBackend: $HttpBackendProvider,
+        $xhrFactory: $xhrFactoryProvider,
+        $jsonpCallbacks: $jsonpCallbacksProvider,
+        $location: $LocationProvider,
+        $log: $LogProvider,
+        $parse: $ParseProvider,
+        $rootScope: $RootScopeProvider,
+        $q: $QProvider,
+        $$q: $$QProvider,
+        $sce: $SceProvider,
+        $sceDelegate: $SceDelegateProvider,
+        $sniffer: $SnifferProvider,
+        $templateCache: $TemplateCacheProvider,
+        $templateRequest: $TemplateRequestProvider,
+        $$testability: $$TestabilityProvider,
+        $timeout: $TimeoutProvider,
+        $window: $WindowProvider,
+        $$rAF: $$RAFProvider,
+        $$jqLite: $$jqLiteProvider,
+        $$HashMap: $$HashMapProvider,
+        $$cookieReader: $$CookieReaderProvider
+      });
+    }
+  ]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;按我们之前的理解，&lt;code&gt;provider&lt;/code&gt;方法是传入一个name和一个factory方法进行定义，不过我们之前有一个不理解用途的方法&lt;code&gt;supportObject&lt;/code&gt;,
+从此处的&lt;code&gt;provider({...})&lt;/code&gt;便能猜想出用途了。&lt;/p&gt;
+
+&lt;p&gt;即传入一个对象，可以进行批量的&lt;code&gt;provider&lt;/code&gt;注册。&lt;/p&gt;
+
+&lt;p&gt;至此，我们基本上已经理解了所有的依赖注入问题。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    var runBlocks = loadModules(modulesToLoad);
+    //省略
+    forEach(runBlocks, function(fn) { if (fn) instanceInjector.invoke(fn); });
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里将最终的runBlocks进行forEach然后invoke，关于runBlocks&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;        if (isString(module)) {
+          moduleFn = angularModule(module);
+          //这里递归加载所有依赖的模块
+          //runBlocks是一个局部变量，每一次loadModules，都是一个新的runBlocks，所以requires会被放在前面
+          runBlocks = runBlocks.concat(loadModules(moduleFn.requires)).concat(moduleFn._runBlocks);
+          //执行invoke队列
+          runInvokeQueue(moduleFn._invokeQueue);
+          runInvokeQueue(moduleFn._configBlocks);
+        } else if (isFunction(module)) {
+            runBlocks.push(providerInjector.invoke(module));
+        } else if (isArray(module)) {
+            runBlocks.push(providerInjector.invoke(module));
+        } else {
+          assertArgFn(module, &#39;module&#39;);
+        }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里module会是Function或者Array。
+来看看modulesToLoad是怎样的传入形式，在injector中，是通过&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    function createInjector(modulesToLoad, strictDi)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;进行传入的，进行该函数的调用检索，在&lt;code&gt;&#39;Angular.js&#39;&lt;/code&gt;中&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    function bootstrap(element, modules, config) {
+        if (!isObject(config)) config = {};
+        var defaultConfig = {...};
+        config = extend(defaultConfig, config);
+        var doBootstrap = function() {
+        element = jqLite(element);
+        
+        if (element.injector()) {...}
+        
+        modules = modules || [];
+        modules.unshift([&#39;$provide&#39;, function($provide) {
+          $provide.value(&#39;$rootElement&#39;, element);
+        }]);
+        
+        if (config.debugInfoEnabled) {...}
+        
+        modules.unshift(&#39;ng&#39;);
+        //这里调用了createInjector
+        var injector = createInjector(modules, config.strictDi);
+        injector.invoke([&#39;$rootScope&#39;, &#39;$rootElement&#39;, &#39;$compile&#39;, &#39;$injector&#39;,
+           function bootstrapApply(scope, element, compile, injector) {
+            scope.$apply(function() {
+              element.data(&#39;$injector&#39;, injector);
+              compile(element)(scope);
+            });
+          }]
+        );
+        return injector;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;来看看bootstrap的调用例子&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    var app = angular.module(&#39;demo&#39;, [])
+      .controller(&#39;WelcomeController&#39;, function($scope) {
+          $scope.greeting = &#39;Welcome!&#39;;
+      });
+      angular.bootstrap(document, [&#39;demo&#39;]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;目前只看到&lt;code&gt;module&lt;/code&gt;传入&lt;code&gt;Array&amp;lt;String&amp;gt;&lt;/code&gt;的例子&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Angular1 Source Code Injector</title>
